@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environment {
+        PYTHON_PATH = 'C:\\Users\\Ganesh\\AppData\\Local\\Programs\\Python\\Python313\\python.exe'
+        PIP_PATH = 'C:\\Users\\Ganesh\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\pip.exe'
+    }
+
     stages {
         stage('Checkout Code') {
             steps {
@@ -11,19 +16,19 @@ pipeline {
 
         stage('Set Up Python Environment') {
             steps {
-                bat 'python --version'
+                bat "\"${env.PYTHON_PATH}\" --version"
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                bat 'pip install -r requirements.txt'
+                bat "\"${env.PIP_PATH}\" install -r requirements.txt"
             }
         }
 
         stage('Smoke Test') {
             steps {
-                bat 'python app.py'
+                bat "\"${env.PYTHON_PATH}\" app.py"
             }
         }
 
