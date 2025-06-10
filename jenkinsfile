@@ -2,33 +2,33 @@ pipeline {
     agent any
 
     environment {
-        PYTHON_PATH = 'C:\\Users\\Ganesh\\AppData\\Local\\Programs\\Python\\Python313\\python.exe'
-        PIP_PATH = 'C:\\Users\\Ganesh\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\pip.exe'
+        PYTHON_PATH = '/usr/bin/python3'
+        PIP_PATH = '/usr/bin/pip3'
     }
 
     stages {
         stage('Checkout Code') {
             steps {
                 echo 'Checking out code from GitHub'
-                // Already handled by Declarative Checkout SCM
+                // Code is auto-checked out by Jenkins
             }
         }
 
         stage('Set Up Python Environment') {
             steps {
-                bat "\"${env.PYTHON_PATH}\" --version"
+                sh "${env.PYTHON_PATH} --version"
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                bat "\"${env.PIP_PATH}\" install -r requirements.txt"
+                sh "${env.PIP_PATH} install -r requirements.txt"
             }
         }
 
         stage('Smoke Test') {
             steps {
-                bat "\"${env.PYTHON_PATH}\" app.py"
+                sh "${env.PYTHON_PATH} app.py"
             }
         }
 
@@ -45,3 +45,4 @@ pipeline {
         }
     }
 }
+
