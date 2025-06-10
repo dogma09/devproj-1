@@ -2,33 +2,37 @@ pipeline {
     agent any
 
     environment {
-        PYTHON_PATH = '/usr/bin/python3'
-        PIP_PATH = '/usr/bin/pip3'
+        VENV_DIR = 'venv'
     }
 
     stages {
         stage('Checkout Code') {
             steps {
                 echo 'Checking out code from GitHub'
-                // Code is automatically checked out in pipeline jobs
             }
         }
 
         stage('Set Up Python Environment') {
             steps {
-                sh "${env.PYTHON_PATH} --version"
+                sh 'python3 --version'
+            }
+        }
+
+        stage('Create Virtual Environment') {
+            steps {
+                sh 'python3 -m venv ${VENV_DIR}'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                sh "${env.PIP_PATH} install -r requirements.txt"
+                sh './${VENV_DIR}/bin/pip install -r requirements.txt'
             }
         }
 
         stage('Smoke Test') {
             steps {
-                sh "${env.PYTHON_PATH} app.py"
+                sh './${VENV_DIR}/bin/python app.py'
             }
         }
 
@@ -45,3 +49,4 @@ pipeline {
         }
     }
 }
+
