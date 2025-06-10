@@ -10,7 +10,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 echo 'Checking out code from GitHub'
-                // Code is auto-checked out by Jenkins
+                // Code is automatically checked out in pipeline jobs
             }
         }
 
@@ -45,4 +45,3 @@ pipeline {
         }
     }
 }
-
